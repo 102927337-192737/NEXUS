@@ -308,16 +308,19 @@ function App() {
     await deleteDoc(doc(db, 'comments', id))
   }
 
-  // منطق إخفاء/إظهار شريط التنقل السفلي
+  // منطق إخفاء/إظهار شريط التنقل السفلي والهيدر العلوي
   const [showBottomNav, setShowBottomNav] = useState(true)
+  const [showTopNav, setShowTopNav] = useState(true)
   const lastScrollY = useRef(window.scrollY)
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY
       if (currentY > lastScrollY.current && currentY > 80) {
         setShowBottomNav(false)
+        setShowTopNav(false)
       } else {
         setShowBottomNav(true)
+        setShowTopNav(true)
       }
       lastScrollY.current = currentY
     }
@@ -328,7 +331,7 @@ function App() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-md border-b border-white/20">
+      <nav className={`fixed top-0 left-0 right-0 z-50 animated-gradient-bg backdrop-blur-md border-b border-white/20 transition-transform duration-300 ${showTopNav ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container mx-auto px-4">
           {/* هيدر خاص للجوال */}
           <div className="header-mobile md:hidden flex items-center justify-between gap-2 py-2">
@@ -798,11 +801,11 @@ function App() {
       </footer>
       {/* Bottom Navigation للجوال */}
       <nav className={`fixed bottom-0 left-0 right-0 z-50 bottom-nav-gradient backdrop-blur-md border-t border-white/30 flex md:hidden justify-around items-center py-2 transition-transform duration-300 ${showBottomNav ? 'translate-y-0' : 'translate-y-full'}`} style={{boxShadow:'0 -2px 16px #0001'}}>
-        <a href="#home" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Home className="w-6 h-6 mb-1" />الرئيسية</a>
-        <a href="#about" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Users className="w-6 h-6 mb-1" />من أنا</a>
-        <a href="#services" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Star className="w-6 h-6 mb-1" />الخدمات</a>
-        <a href="#portfolio" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Layers className="w-6 h-6 mb-1" />الأعمال</a>
-        <a href="#contact" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Mail className="w-6 h-6 mb-1" />تواصل</a>
+        <a href="#home" className="flex flex-col items-center text-xs text-white hover:text-blue-200 transition"><Home className="w-6 h-6 mb-1 text-white" />الرئيسية</a>
+        <a href="#about" className="flex flex-col items-center text-xs text-white hover:text-blue-200 transition"><Users className="w-6 h-6 mb-1 text-white" />من أنا</a>
+        <a href="#services" className="flex flex-col items-center text-xs text-white hover:text-blue-200 transition"><Star className="w-6 h-6 mb-1 text-white" />الخدمات</a>
+        <a href="#portfolio" className="flex flex-col items-center text-xs text-white hover:text-blue-200 transition"><Layers className="w-6 h-6 mb-1 text-white" />الأعمال</a>
+        <a href="#contact" className="flex flex-col items-center text-xs text-white hover:text-blue-200 transition"><Mail className="w-6 h-6 mb-1 text-white" />تواصل</a>
       </nav>
     </div>
   )
