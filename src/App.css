@@ -264,3 +264,93 @@ button:active:focus {
   opacity: 1;
   transform: none;
 }
+
+@media (max-width: 600px) {
+  .header-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  .header-mobile .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header-mobile .actions {
+    display: flex;
+    gap: 6px;
+  }
+  .header-mobile button {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 12px;
+    padding: 8px 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px #0001;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .header-mobile button:active {
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 4px 16px #0002;
+  }
+  .comments-box {
+    background: rgba(255,255,255,0.10);
+    border-radius: 18px;
+    box-shadow: 0 2px 16px #0002;
+    padding: 18px 10px;
+    margin: 0 4px;
+  }
+  .comments-box input,
+  .comments-box textarea {
+    background: rgba(255,255,255,0.18);
+    border-radius: 12px;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+  }
+  .comments-box button[type="submit"] {
+    background: linear-gradient(90deg, #4f46e5, #a21caf);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px #0002;
+    margin-top: 8px;
+    padding: 12px 0;
+  }
+}
+
+button, .btn, .comments-box button[type="submit"] {
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s, transform 0.2s;
+}
+button:active, .btn:active, .comments-box button[type="submit"]:active {
+  transform: scale(0.96) rotate(-1deg);
+  box-shadow: 0 4px 16px #0002;
+}
+button:hover, .btn:hover, .comments-box button[type="submit"]:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 16px #0003;
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(270deg, #4f46e5, #a21caf, #06b6d4, #f472b6, #4f46e5);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+}
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+body, html, input, textarea, button {
+  font-family: 'Tajawal', Arial, Helvetica, sans-serif !important;
+}
