@@ -308,6 +308,23 @@ function App() {
     await deleteDoc(doc(db, 'comments', id))
   }
 
+  // منطق إخفاء/إظهار شريط التنقل السفلي
+  const [showBottomNav, setShowBottomNav] = useState(true)
+  const lastScrollY = useRef(window.scrollY)
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      if (currentY > lastScrollY.current && currentY > 80) {
+        setShowBottomNav(false)
+      } else {
+        setShowBottomNav(true)
+      }
+      lastScrollY.current = currentY
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
@@ -320,26 +337,12 @@ function App() {
                 <span className="text-white font-bold text-sm">N</span>
               </div>
               <span className="text-xl font-bold text-white">Nexus</span>
-            </div>
-            <div className="actions flex items-center gap-2">
               <button
-                className="p-2 rounded-full bg-white/20 hover:bg-white/40 transition-colors"
+                className="ml-2 p-2 rounded-full bg-white/20 hover:bg-white/40 transition-colors"
                 aria-label="تبديل اللغة"
                 onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
               >
                 {t.lang}
-              </button>
-              <button
-                className="p-2 rounded-full bg-white/20 hover:bg-white/40 transition-colors"
-                aria-label={theme === 'dark' ? 'تبديل إلى النهاري' : 'تبديل إلى الليلي'}
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              >
-                {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-800" />}
-              </button>
-              <button className="p-2 rounded-full bg-white/20 hover:bg-white/40 transition-colors" onClick={() => setMobileMenuOpen(true)} aria-label="فتح القائمة الجانبية" tabIndex={0}>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
               </button>
             </div>
           </div>
@@ -391,17 +394,7 @@ function App() {
       </nav>
 
       {/* Mobile Drawer Menu */}
-      <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-        <SheetContent side="left" className="bg-white/90 backdrop-blur-md p-0 w-64 z-50">
-          <nav className="flex flex-col gap-4 p-6">
-            <a href="#home" className="text-gray-900 text-lg font-medium hover:text-blue-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>Home</a>
-            <a href="#about" className="text-gray-900 text-lg font-medium hover:text-blue-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>About</a>
-            <a href="#services" className="text-gray-900 text-lg font-medium hover:text-blue-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>Services</a>
-            <a href="#portfolio" className="text-gray-900 text-lg font-medium hover:text-blue-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>Portfolio</a>
-            <a href="#contact" className="text-gray-900 text-lg font-medium hover:text-blue-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-          </nav>
-        </SheetContent>
-      </Sheet>
+      {/* تم إلغاء القائمة الجانبية نهائيًا */}
 
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 animated-gradient-bg">
@@ -804,7 +797,7 @@ function App() {
         </div>
       </footer>
       {/* Bottom Navigation للجوال */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-t border-white/30 flex md:hidden justify-around items-center py-2" style={{boxShadow:'0 -2px 16px #0001'}}>
+      <nav className={`fixed bottom-0 left-0 right-0 z-50 bottom-nav-gradient backdrop-blur-md border-t border-white/30 flex md:hidden justify-around items-center py-2 transition-transform duration-300 ${showBottomNav ? 'translate-y-0' : 'translate-y-full'}`} style={{boxShadow:'0 -2px 16px #0001'}}>
         <a href="#home" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Home className="w-6 h-6 mb-1" />الرئيسية</a>
         <a href="#about" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Users className="w-6 h-6 mb-1" />من أنا</a>
         <a href="#services" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600 transition"><Star className="w-6 h-6 mb-1" />الخدمات</a>
